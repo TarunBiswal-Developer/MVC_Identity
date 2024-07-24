@@ -1,0 +1,82 @@
+﻿@model Backend.Models.UserProfile
+
+<style>
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+        perspective: 1000px;
+    }
+
+    .table-custom th,
+    .table-custom td {
+        border: none;
+        padding: 12px;
+        text-align: left;
+        transition: transform 0.5s;
+    }
+
+    .table-custom th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .table-custom tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table-custom th:nth-child(odd):hover {
+        transform: rotateY(10deg) translateY(-10px);
+    }
+
+    .table-custom th:nth-child(even):hover {
+        transform: rotateY(-10deg) translateY(-10px);
+    }
+</style>
+
+<table class="table table-striped table-hover table-bordered table-custom">
+    <tbody>
+        <tr>
+            <td><strong>Name : </strong> @(!string.IsNullOrEmpty(Model.Name) ? Model.Name : "N/A")</td>
+            <td><strong>Username : </strong> @(!string.IsNullOrEmpty(Model.Username) ? Model.Username : "N/A")</td>
+        </tr>
+        <tr>
+            <td><strong>Personal Number: </strong> @(!string.IsNullOrEmpty(Model.UserCode) ? Model.UserCode : "N/A")</td>
+            <td><strong>Official Contact No: </strong> @(!string.IsNullOrEmpty(Model.Mobile) ? Model.Mobile : "N/A")</td>
+        </tr>
+        <tr>
+            <td><strong>Other Contact No : </strong>@(!string.IsNullOrEmpty(Model.OtherContactNo) ? Model.OtherContactNo : "N/A")</td>
+            <td><strong>Official Email-Id: </strong>@(!string.IsNullOrEmpty(Model.Email) ? Model.Email : "N/A")</td>
+        </tr>
+        <tr>
+            <td><strong>Other Email-Id: </strong>@(!string.IsNullOrEmpty(Model.OtherEmailId) ? Model.OtherEmailId : "N/A")</td>
+            <td><strong>Admission Year: </strong>@(!string.IsNullOrEmpty(Model.AdmissionYear.Year.ToString()) ? Model.AdmissionYear.Year.ToString() : "N/A")</td>
+        </tr>
+        <tr>
+            <td><strong>Father Name: </strong>@(!string.IsNullOrEmpty(Model.FatherName) ? Model.FatherName : "N/A")</td>
+            <td><strong>Father Contact: </strong>@(!string.IsNullOrEmpty(Model.FatherContact) ? Model.FatherContact : "N/A")</td>
+        </tr>
+
+        <tr>
+            <td><strong>Mother Name: </strong>@(!string.IsNullOrEmpty(Model.MotherName) ? Model.MotherName : "N/A")</td>
+            <td><strong>Mother Contact: </strong>@(!string.IsNullOrEmpty(Model.MotherContact) ? Model.MotherContact : "N/A")</td>
+        </tr>
+        <tr>
+            <td><strong>Local Guardian: </strong>@(!string.IsNullOrEmpty(Model.LocalGuardian) ? Model.LocalGuardian : "N/A") </td>
+            <td><strong>Local Guardian Contact: </strong>@(!string.IsNullOrEmpty(Model.LocalGuardianContact) ? Model.LocalGuardianContact : "N/A")</td>
+        </tr>
+        <tr>
+            <td><strong>Residential Address: </strong>@(!string.IsNullOrEmpty(Model.ResidentialAddress) ? Model.ResidentialAddress : "N/A")</td>
+            <td><strong>Hostel Address: </strong>@(!string.IsNullOrEmpty(Model.HostelAddress) ? Model.HostelAddress : "N/A")</td>
+        </tr>
+        <tr>
+            <td><strong>Role : </strong>@(!string.IsNullOrEmpty(string.Join(", ", Model.UserRoles)) ? string.Join(", ", Model.UserRoles) : "N/A")</td>
+            <td><strong>Access : </strong>@(Model.IsActive == true ? "Granted" : "Blocked")</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+

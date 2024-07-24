@@ -1,0 +1,220 @@
+﻿@model Backend.Models.ListUsersViewModel
+@{
+    ViewBag.Title = "List of Users";
+    int pageNumber = Convert.ToInt32(Request.QueryString["page"]);
+    int pageSize = Convert.ToInt32(Request.QueryString["size"]);
+    string searchText = Request.QueryString["searchText"];
+    if (pageNumber == 0)
+    {
+        pageNumber = 1;
+    }
+    if (pageSize == 0)
+    {
+        pageSize = Model.Pager.PageSize;
+    }
+}
+
+@section css {
+    <style>
+        /* Add your custom CSS styles here */
+       
+
+        .pagetitle {
+            margin-bottom: 10px;
+        }
+
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .thead-custom {
+            background: linear-gradient(to right, #4e73df, #224abe);
+            color: white;
+            font-weight: bold;
+        }
+        /*.td-action {
+            white-space: nowrap;*/ /* Prevent button text from wrapping */
+        /*width: 500px;*/ /* Adjust the width as needed */
+        /*}*/
+
+        .pagination-wrapper {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .btn-search {
+            background-color: #28a745;
+            border-color: #28a745;
+            font-size: 14px;
+        }
+
+            .btn-search:hover {
+                background-color: #218838;
+                border-color: #1e7e34;
+            }
+
+        /*.btn-add-user {*/
+        /* background-color: #007bff;*/
+        /* border-color: #007bff;*/
+        /*font-size: 14px;
+        }*/
+
+        .btn-add-user:hover {
+            background-color: #808080;
+            border-color: #808080;
+        }
+
+        .btn-action {
+            transition: transform 0.2s;
+        }
+
+            .btn-action:hover {
+                transform: scale(1.1);
+            }
+
+      
+    </style>
+}
+
+<div class="container">
+    <div class="pagetitle">
+        <h1>@ViewBag.Title</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="card">
+            <div class="card-header divCartHeader">
+                <div class="input-group">
+                    <input type="text" id="searchText" class="form-control form-control-sm" placeholder="Search by Personal No" value="@searchText" />
+                    <div class="input-group-append">
+                        <button id="btnSearch" class="btn btn-search btn-sm" type="button"><i class="fa fa-search"></i> Search</button>
+                        <a class="btn btn-secondary btn-add-user btn-sm" href="@Url.Action("Create", "SuperAdmin")" data-toggle="tooltip" title="Add User"><i class="fas fa-user-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="table" class="table table-bordered table-striped">
+                        <thead class="thead-custom">
+                            <tr>
+                                <th>S.No.</th>
+                                <th>User Name</th>
+                                <th>Name</th>
+                                <th>PNO</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Role</th>
+                                <th>Action(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.UsersViewModels.Select((data, index) => new { data, index }))
+                            {
+                                <tr>
+                                    <td>@(item.index + 1)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.data.Username)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.data.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.data.UserCode)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.data.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.data.Mobile)</td>
+                                    <td>
+                                        @if (item.data.UserRoles.Count > 0)
+                                        {<span>@string.Join(", ", item.data.UserRoles.ToList())</span>}
+                                    </td>
+                                    <td id="tdAction">
+                                        @*<a href="@Url.Action("Edit", "SuperAdmin", new { uID = item.data.UserId })" class="btn btn-primary btn-action btn-sm" data-toggle="tooltip" title="Edit User"><i class="fa fa-edit"></i></a>
+                                            <a href="@Url.Action("Details", "SuperAdmin", new { uID = item.data.UserId })" class="btn btn-info btn-action btn-sm" data-toggle="tooltip" title="View Details"><i class="fa fa-info-circle"></i></a>
+                                            <a href="@Url.Action("Delete", "SuperAdmin", new { uID = item.data.UserId })" class="btn btn-danger btn-action btn-sm" data-toggle="tooltip" title="Delete User" onclick="return confirm('Do you really want to delete this User?');"><i class="fa fa-trash"></i></a>*@
+
+
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-secondary">Action(s)</button>
+                                            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span class="visually-hidden">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="@Url.Action("Edit", "SuperAdmin", new { uID = item.data.UserId })" data-toggle="tooltip" title="Edit User"><i class="fa fa-edit icon-Edit"></i> Edit </a></li>
+                                                <li><a class="dropdown-item" href="@Url.Action("Details", "SuperAdmin", new { uID = item.data.UserId })" data-toggle="tooltip" title="View Details"><i class="fa fa-info-circle icon-View" ></i> Details </a></li>
+                                                <li><a class="dropdown-item" href="@Url.Action("Delete", "SuperAdmin", new { uID = item.data.UserId })" data-toggle="tooltip" title="Delete User" onclick="return confirm('Do you really want to delete this User?');"> <i class="fa fa-trash icon-Delete"></i> Delete </a></li>
+                                                @*<li><hr class="dropdown-divider"></li>
+                                                    <li><a class="dropdown-item" href="#">Separated link</a></li>*@
+                                            </ul>
+                                        </div>
+
+
+
+                                        @*@Html.ActionLink("Edit", "Edit", new { uID = item.data.UserId }, new { @class = "btn btn-primary btn-sm mr-1 btn-action" })
+                                            @Html.ActionLink("Details", "Details", new { uID = item.data.UserId }, new { @class = "btn btn-info btn-sm mr-1 btn-action" })
+                                            @Html.ActionLink("Delete", "Delete", new { uID = item.data.UserId }, new { @class = "btn btn-danger btn-sm btn-action", onclick = "return confirm('Do you really want to delete this User?');" })*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-wrapper">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end">
+                            @if (Model.Pager.StartPage != 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index","Admin",new {page = 1, size = pageSize })" aria-label="First">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            }
+                            @foreach (var pg in Model.Pager.Pages)
+                            {
+                                <li class='page-item @(pg == pageNumber ? "active" : "")'><a class="page-link" href='@Url.Action("Index","SuperAdmin",new {page = pg, size = pageSize })'>@pg</a></li>
+                            }
+                            @if (Model.Pager.EndPage != Model.Pager.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index","SuperAdmin",new {page = Model.Pager.TotalPages, size = pageSize })" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div><!-- pagination-wrapper -->
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        var $rows = $('#table tbody tr');
+        $('#searchText').keyup(function () {
+            var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            $rows.show().filter(function () {
+                var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+        $('#btnSearch').on('click', function (e) {
+            e.preventDefault();
+            var searchText = $('#searchText').val();
+            window.location.href = baseHref + "SuperAdmin/Index?page=@pageNumber&size=@pageSize&searchText="+searchText;
+        });
+    </script>
+}

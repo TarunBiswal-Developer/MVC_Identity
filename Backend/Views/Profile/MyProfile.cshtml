@@ -1,0 +1,360 @@
+﻿@model Backend.Models.UserProfile
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css {
+    <link href="@Url.Content("~/Assets/css/layoutDesign.css")" rel="stylesheet" />
+    <style>
+        .social-links .btn {
+            width: 80px; /* Adjust width as needed */
+            height: 80px; /* Adjust height as needed */
+            border-radius: 10px; /* Smaller border radius for a squared look */
+            background: linear-gradient(135deg, #FFD700, #FF8C00); /* Gradient background */
+            color: #fff; /* White text color */
+            border: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+            transition: all 0.3s ease;
+            overflow: hidden; /* Hide overflowing content */
+            position: relative;
+            z-index: 1;
+            padding: 5px; /* Adjust padding */
+            margin: 5px; /* Adjust margin between buttons */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .social-links .btn::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.2); /* White semi-transparent overlay */
+                border-radius: 10px; /* Smaller border radius for overlay */
+                transition: all 0.3s ease;
+                transform: translate(-50%, -50%) scale(0);
+                z-index: -1;
+            }
+
+            .social-links .btn:hover::before {
+                transform: translate(-50%, -50%) scale(1); /* Expand overlay on hover */
+            }
+
+            .social-links .btn:hover {
+                transform: translateY(-3px); /* Move button up slightly on hover for 3D effect */
+                box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5); /* Increase shadow on hover */
+            }
+
+            .social-links .btn i {
+                font-size: 16px; /* Adjust icon size */
+                margin-bottom: 3px; /* Adjust space below icon */
+            }
+
+            .social-links .btn span {
+                display: block;
+                font-size: 10px; /* Adjust text size */
+                text-align: center;
+                line-height: 1.2;
+            }
+    </style>
+
+
+}
+<div class="container">
+    <div class="pagetitle">
+        <h1>My Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">My Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-12">
+
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                        <img src="~/Assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" />
+                        <h2>@Model.Name</h2>
+                        <h3>@Model.Role</h3>
+                        <div class="social-links mt-2">
+                            @*<button type="button" class="btn btn-info p-5 rounded-circle btn-lg"><i class="fas fa-info-circle"></i><br> Overview</button>
+                                <button type="button" class="btn btn-info p-5 rounded-circle btn-lg"><i class="fas fa-edit"></i><br> Edit Profile</button>
+                                <button type="button" class="btn btn-info p-5 rounded-circle btn-lg"><i class="fas fa-lock"></i><br> Change Password</button>*@
+
+
+                            <button type="button" id="btnOverview" class="btn btn-info p-5  btn-sm" data-toggle="tooltip" title="Overview"  data-userid="@Model.UserId" ><i class="fas fa-2x fa-info-circle"></i></button>
+                            <button type="button" id="btnEditProfile" class="btn btn-info p-5  btn-sm" data-toggle="tooltip" title="Edit Profile"  data-userid="@Model.UserId"><i class="fas fa-2x fa-edit"></i></button>
+                            <button type="button" id="btnChangePassword" class="btn btn-info p-5  btn-sm" data-toggle="tooltip" title="Change Password"  data-userid="@Model.UserId"><i class="fas fa-2x fa-lock"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            
+        </div>
+    </section>
+
+
+
+
+    <input type="hidden" name="UserId" id="UserId" value="" />
+
+
+    <div class="modal fade" id="ChangePasswordModal" tabindex="-1" aria-labelledby="ChangePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content rounded-3 shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title text-center" id="ChangePasswordModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close btn-close-white btn_cls" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="Change-Password-Wrapper">
+                    <!-- Change Password Form -->
+                    <form id="ChangePassword">
+                        <div class="form-group mb-3">
+                            <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Old Password" required
+                                   data-parsley-required-message="Old Password is required" />
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="password" class="form-control" id="newPsd" name="newPsd" placeholder="New Password" 
+                                   data-parsley-minlength="6" data-parsley-errors-container=".errorspannewpassinput" required
+                                   data-parsley-required-message="New Password is required" />
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm New Password" 
+                                   required data-parsley-required-message="Confirm New Password is required"
+                                   data-parsley-equalto-message="New Password and Confirm New Password doesn't match"
+                                   data-parsley-equalto="#newPsd" />
+                            <span class="help-block"></span>
+                        </div>
+                        <input type="submit" id="submitChangePassword" class="btn btn-primary" value="Submit" />
+                    </form>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+
+    @*//Edit Employee*@
+
+
+    <div class="modal fade" id="EditProfileModal" tabindex="-1" aria-labelledby="EditProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content rounded-3 shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="editModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close btn-close-white btn_cls" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="Edit-Profile-Wrapper">
+                    <!-- Your modal body content goes here  -->
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-center">
+                    <button type="button" class="btn btn-danger btn_cls" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="btnEditUser">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*View User*@
+
+    <div class="modal fade" id="OverviewModal" tabindex="-1" aria-labelledby="OverviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content rounded-3 shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="OverviewModalLabel">Overview</h5>
+                    <button type="button" class="btn-close btn-close-white btn_cls" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="Overview-Wrapper">
+                    <!-- Your modal body content goes here  -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+@section scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // $('[data-toggle="tooltip"]').tooltip();
+
+
+            //change password.................................
+            $('#btnChangePassword').click(function () {
+                $('#UserId').val($(this).data("userid"));
+                $('#ChangePasswordModal').modal('show');
+            });
+            //Model Popup
+            $('#ChangePasswordModal').on('shown.bs.modal', function (e) {
+                var modal = $('#ChangePasswordModal');
+                var modal_body = modal.find('.modal-body');
+            });
+            $('#submitChangePassword').click(function (e) {
+                e.preventDefault();
+                var modal = $('#ChangePasswordModal');
+                var isValid = $('form#ChangePassword').parsley(parsleyConfig).validate();
+                if (isValid) {
+                var oldPassword = $('#oldPassword').val();
+                var newPassword = $('#newPsd').val();
+                var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+                var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+                var OldPassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(oldPassword), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                var NewPassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(newPassword), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: '@Url.Action("ChangePassword", "Profile")',
+                        data: JSON.stringify({'oldPassword': OldPassword, 'newPassword': NewPassword }),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.IsSuccessful) {
+                                showSweetAlert('success', 'Success', data.Message, 5000);
+                            } else {
+                                showSweetAlert('error', 'Error', data.Message, 5000);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            showSweetAlert('error', 'Error', errorThrown, 5000);
+                        }
+                    });
+                }
+            });
+
+
+                  //model for Edit User
+                $("body").on("click", "#btnEditProfile", function (e)
+                {
+                    $('#UserId').val($(this).data("userid"));
+                    $('#EditProfileModal').modal('show');
+                });
+
+                $('#EditProfileModal').on('shown.bs.modal', function (e)
+                {
+                    var $tokenwrapper = $('#Edit-Profile-Wrapper');
+                    var userId = $('#UserId').val();
+                    $tokenwrapper.html('');
+                    $.get('@Url.Action("EditProfile", "Profile")', { 'userId': userId }, function (data)
+                    {
+                        $tokenwrapper.html(data);
+                    });
+                });
+                $("body").on("click", "#btnEditUser", function (e) {
+                    e.preventDefault();
+                   var isValid = $('#editUser').parsley(parsleyConfig).validate();
+                    if (isValid) {
+
+                   var UserId = $('#UserId').val();
+                   var Name = $('#Name').val();
+                   var Email = $('#Email').val();
+                   var Mobile = $('#Mobile').val();
+                   var OtherContactNo = $('#OtherContactNo').val();
+                   var OtherEmailId = $('#OtherEmailId').val();
+                   var FatherName = $('#FatherName').val();
+                   var FatherContact = $('#FatherContact').val();
+                   var MotherName = $('#MotherName').val();
+                   var MotherContact = $('#MotherContact').val();
+                   var LocalGuardian = $('#LocalGuardian').val();
+                   var LocalGuardianContact = $('#LocalGuardianContact').val();
+                   var ResidentialAddress = $('#ResidentialAddress').val();
+                   var HostelAddress = $('#HostelAddress').val();
+                   var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+                   var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+
+                     //var Password = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var Name = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Name), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var Email = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Email), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var Mobile = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Mobile), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var OtherContactNo = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(OtherContactNo), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var OtherEmailId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(OtherEmailId), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var FatherName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FatherName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var FatherContact = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FatherContact), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var MotherName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(MotherName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var MotherContact = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(MotherContact), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var LocalGuardian = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(LocalGuardian), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var LocalGuardianContact = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(LocalGuardianContact), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var ResidentialAddress = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ResidentialAddress), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                   var HostelAddress = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(HostelAddress), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                      
+                   var UserData = {
+             UserId,  Name, Email, Mobile, OtherContactNo,OtherEmailId,FatherName,FatherContact,MotherName,MotherContact,LocalGuardian,LocalGuardianContact,ResidentialAddress,HostelAddress
+        };
+
+
+                   $.ajax({
+                          type: 'POST',
+                          contentType: 'application/json; charset=utf-8',
+                          url: '@Url.Action("EditProfile", "Profile")',
+                          data: JSON.stringify(UserData),
+                          dataType: 'json',
+                          success: function (data) {
+                          if (data.IsSuccessful) {
+                            showSweetAlert('success', 'Success', data.Message, 5000);
+                          } else {
+                            showSweetAlert('error', 'Error', data.Message, 5000);
+                          }
+                          },
+                          error: function (XMLHttpRequest, textStatus, errorThrown) {
+                showSweetAlert('error', 'Error', errorThrown, 5000);
+            }
+                   });
+                    }
+                });
+
+
+
+                $("body").on("click", ".btn_cls", function (e)
+                {
+                    location.reload();
+                });
+
+
+
+                    //model for View User details
+ $("body").on("click", "#btnOverview", function (e)
+ {
+     $('#UserId').val($(this).data("userid"));
+     $('#OverviewModal').modal('show');
+ });
+
+ $('#OverviewModal').on('shown.bs.modal', function (e)
+ {
+     var $tokenwrapper = $('#Overview-Wrapper');
+     var userId = $('#UserId').val();
+     $tokenwrapper.html('');
+     $.get('@Url.Action("Overview", "Profile")', { 'userId': userId }, function (data)
+     {
+         $tokenwrapper.html(data);
+
+     });
+ });
+
+
+        });
+
+
+
+
+
+
+    </script>
+}
+

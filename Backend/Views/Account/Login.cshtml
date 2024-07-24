@@ -1,0 +1,286 @@
+﻿@using Backend.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>@Helpers.ApplicationShortName</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    @*<link href="@Url.Content("~/assets/img/IIIT_Logo.png")" rel="icon">
+    <link href="@Url.Content("~/assets/img/apple-touch-icon.png")" rel="apple-touch-icon">*@
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="@Url.Content("~/assets/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/assets/vendor/bootstrap-icons/bootstrap-icons.css")" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="@Url.Content("~/assets/css/style.css")" rel="stylesheet">
+
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/font-awesome/css/all.min.css")" />
+    <link href="@Url.Content("~/Assets/vendor/select2/css/select2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/vendor/sweetalert2/sweetalert2.css")" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: white;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            height: 515px !important;
+            border:5px solid lavender;
+            margin-top:50px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .form-label {
+            font-weight: 500;
+            justify-content:start
+        }
+
+        .form-control {
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 5px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-login {
+            border-radius: 5px;
+            padding: 12px;
+            font-weight: 600;
+            background-color: #007bff;
+            border: none;
+            width: 100%;
+            color: #fff;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        .helper-text {
+            margin-top: 5px;
+        }
+
+        .helper-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .helper-text a:hover {
+            color: #0056b3;
+        }
+
+        .credits {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .logo {
+            margin: 30px 0;
+        }
+
+        .logo img {
+            max-height: 45px;
+        }
+
+        .captcha-container {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f8f9fa;
+        }
+
+        .captcha-container img {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .captcha-container button {
+            margin-bottom: 10px;
+            font-size: 12px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .captcha-container button:hover {
+            background-color: #0056b3;
+            color:white;
+        }
+
+        .captcha-container .form-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .captcha-container .form-control {
+            border-radius: 5px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            width: 100%;
+            max-width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="logo">
+            @*<img src="@Url.Content("~/assets/img/IIIT_Logo.png")" alt="IIIT Logo">*@
+        </div>
+        <h2 class="login-title" style="font-weight:bolder;">LOGIN</h2>
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { name = "frmLogin", id = "frmLogin" }))
+        {
+            @Html.AntiForgeryToken();
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <label for="Username" class="form-label">Username</label>
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "User Name", required = "required", autocomplete = "off", minlength = "4", maxlength = "6" })
+            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+
+            <label for="Password" class="form-label">Password</label>
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", required = "required", autocomplete = "off" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+            <!-- CAPTCHA -->
+            <div class="captcha-container">
+                <img src="@Url.Action("GenerateCaptcha", "Account")" alt="Captcha Image" id="captchaImage" />
+                <button type="button" id="refreshCaptcha" class="btn btn-link">Refresh CAPTCHA</button>
+                <input type="text" name="captchaCode" id="CaptchaCode" class="form-control" placeholder="Enter CAPTCHA" required="required" autocomplete="off" />
+                @Html.ValidationMessageFor(m => m.Captcha, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessage("CaptchaCode", "", new { @class = "text-danger" })*@
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-login">LOGIN</button>
+
+            <div class="helper-text">
+                <a href="@Url.Action("URLSetting","URLSetting")">Version - @Helpers.ApplicationVersion</a>
+            </div>
+        }
+
+        <div class="credits">
+            <!-- Designed by <a href="">Suyog India Pvt Ltd.</a> -->
+        </div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="@Url.Content("~/Assets/vendor/jquery/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/apexcharts/apexcharts.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/chart.js/chart.umd.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/echarts/echarts.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/quill/quill.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/simple-datatables/simple-datatables.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/tinymce/tinymce.min.js")"></script>
+
+    <script src="@Url.Content("~/Assets/vendor/select2/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/bootstrap-notify/js/bootstrap-notify.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/datatables/js/jquery.dataTables.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/moment.js/moment.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/parsley.js/parsley.js")"></script>
+    @*<script src="@Url.Content("~/Assets/vendor/crypto-js/crypto-js.min.js")"></script>*@
+    <script src="@Url.Content("~/Assets/vendor/font-awesome/js/all.min.js")"></script>
+    <!-- Template Main JS File -->
+    <script src="@Url.Content("~/Assets/js/main.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/sweetalert2/sweetalert2.js")"></script>
+    <script type="text/javascript">
+        document.getElementById('refreshCaptcha').addEventListener('click', function () {
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.src = '@Url.Action("GenerateCaptcha", "Account")?' + Math.random();
+    });
+        // Check for the existence of the SweetAlert message in TempData and display it
+        var sweetAlert = "@TempData["SweetAlert"]" || "";
+        if (sweetAlert) {
+            var alertParts = sweetAlert.split("|");
+
+            // SweetAlert configuration
+            Swal.fire({
+                icon: alertParts[0],
+                title: alertParts[1],
+                text: alertParts[2] || "",
+                confirmButtonText: alertParts[3] || "OK",
+                showConfirmButton: alertParts[4] !== "false",
+                timer: alertParts[5] ? parseInt(alertParts[5]) : null,
+                position: alertParts[6] || "center",
+                customClass: {
+                    container: alertParts[7] || "swal-container-class",
+                },
+            });
+        }
+
+        // Function to show SweetAlert
+        function showSweetAlert(icon, title, text, timer) {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: false,
+                timer: timer
+            });
+        }
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        var parsleyConfig = {
+            errorsContainer: function (pEle) {
+                var $err = pEle.$element.closest('.form-group .input-group').find('.help-block');
+                return $err;
+            }
+        }
+    </script>
+</body>
+
+</html>

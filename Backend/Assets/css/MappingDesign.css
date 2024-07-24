@@ -1,0 +1,149 @@
+﻿
+.divCourseAssign .box, .divSemesterAssign .box,.divMapStudent .box,.divStudentAssign .box,.divFacultyAssign .box ,.divMappingApproval .box {
+    border-radius: 20px;
+    padding: 20px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 10px 10px 20px #d0d0d0, -10px -10px 20px #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.divCourseAssign .header, .divSemesterAssign .header,.divMapStudent .header,.divStudentAssign .header,.divFacultyAssign .header,.divMappingApproval .header{
+    background: #1a2b66;
+    color: #fff;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.divCourseAssign .content, .divSemesterAssign .content,.divMapStudent .content,.divStudentAssign .content,.divFacultyAssign .content,.divMappingApproval .content{
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.divCourseAssign .item, .divSemesterAssign .item,.divMapStudent .item,.divStudentAssign .item,.divFacultyAssign .item ,.divMappingApproval .item{
+    padding: 15px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+    .divCourseAssign .item:hover, .divSemesterAssign .item:hover,.divMapStudent .item:hover,.divStudentAssign .item:hover,.divFacultyAssign .item:hover,.divMappingApproval .item:hover{
+        background-color: #d0d0d0;
+    }
+
+/* Checkbox Style */
+.divCourseAssign input[type="checkbox"], .divSemesterAssign input[type="checkbox"],.divMapStudent input[type="checkbox"],.divStudentAssign input[type="checkbox"],.divFacultyAssign input[type="checkbox"],.divMappingApproval input[type="checkbox"]{
+    margin-right: 15px;
+    transform: scale(1.5);
+}
+
+/* Button Style */
+.divCourseAssign .btn, .divSemesterAssign .btn,.divMapStudent .btn,.divStudentAssign .btn,.divFacultyAssign .btn ,.divMappingApproval .btn {
+    border-radius: 50%;
+    width: 50px;
+    height: 49px;
+    font-size: 1.66rem;
+    margin: 3px;
+    transition: background-color 0.3s ease;
+}
+
+    .divCourseAssign .btn:hover, .divSemesterAssign .btn:hover,.divMapStudent .btn:hover,.divStudentAssign .btn:hover,.divFacultyAssign .btn:hover,.divMappingApproval .btn:hover {
+        background-color: #4e73df;
+    }
+
+    .divCourseAssign .btn i, .divSemesterAssign .btn i ,.divMapStudent .btn i,.divStudentAssign .btn i,.divFacultyAssign .btn i,.divMappingApproval .btn i{
+        vertical-align: middle;
+    }
+
+/* Custom Button Colors */
+.divCourseAssign .btn-primary, .divSemesterAssign .btn-primary,.divMapStudent .btn-primary,.divStudentAssign .btn-primary,.divFacultyAssign .btn-primary,.divMappingApproval .btn-primary{
+    background-color: #4e73df;
+    border-color: #f0f0f0;
+}
+
+    .divCourseAssign .btn-primary:hover, .divSemesterAssign .btn-primary:hover,.divMapStudent .btn-primary:hover,.divStudentAssign .btn-primary:hover,.divFacultyAssign .btn-primary:hover ,.divMappingApproval .btn-primary:hover {
+        background-color: #224abe;
+        border-color: #224abe;
+    }
+
+
+
+@media screen and (max-width: 576px) {
+    .box {
+        width: 100%;
+    }
+}
+
+
+
+.divCourseAssign .search, .divSemesterAssign .search,.divMapStudent .search,.divStudentAssign .search,.divFacultyAssign .search,.divMappingApproval .search{
+    margin-bottom: 5px; /* Reduce margin between search and content */
+}
+
+.divCourseAssign #divAssignCrsSearch input[type="text"], .divSemesterAssign #divAssignSemSearch input[type="text"],.divMapStudent #divAssignStdSearch input[type="text"],.divStudentAssign #divAssignStdSearch input[type="text"],.divFacultyAssign #divAssignCrsSearch input[type="text"],.divMappingApproval #divAssignUserSearch input[type="text"]  {
+    width: calc(100% - 78px); /* Adjust width as needed */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 13px 0px 0px 13px;
+    outline: none;
+}
+
+.divCourseAssign #divAllCrsSearch input[type="text"], .divSemesterAssign #divAllSemSearch input[type="text"],.divMapStudent #divAllStdSearch input[type="text"],.divStudentAssign #divAllStdSearch input[type="text"],.divFacultyAssign #divAllCrsSearch input[type="text"],.divMappingApproval #divAllUserSearch input[type="text"] {
+    width: calc(100% - 0px); /* Adjust width as needed */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 13px 0px 0px 13px;
+    outline: none;
+}
+
+.divCourseAssign .search input[type="text"]:focus, .divSemesterAssign .search input[type="text"]:focus,.divMapStudent .search input[type="text"]:focus,.divStudentAssign .search input[type="text"]:focus,.divFacultyAssign .search input[type="text"]:focus,.divMappingApproval .search input[type="text"]:focus {
+    border-color: #007bff;
+}
+
+.divCourseAssign .search, .divSemesterAssign .search,.divMapStudent .search,.divStudentAssign .search,.divFacultyAssign .search,.divMappingApproval .search {
+    margin-bottom: 5px; /* Reduce margin between search and content */
+}
+
+
+
+/* Button Styles */
+.half-circle-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid #007bff; /* Primary color */
+    color: #007bff; /* Text color */
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0 50px 50px 0; /* Half circle on the right side */
+}
+
+    .half-circle-button:hover {
+        background-color: #007bff; /* Primary color */
+        color: #fff; /* Text color */
+    }
+
+    .half-circle-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); /* Focus color */
+    }
+
+i#moveRightBtn {
+    background: #1a2b66;
+}
+
+i#moveLeftBtn {
+    background: #1a2b66;
+}
+
+select#DeptId, #DeptSemesterBatchId,#DeptSemesterCourseId {
+    height: 39px;
+}

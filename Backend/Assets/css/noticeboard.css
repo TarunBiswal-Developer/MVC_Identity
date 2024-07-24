@@ -1,0 +1,99 @@
+ .dashboard-container {
+     max-width: 100%;
+     margin: 0 auto;
+     background-color: #fff;
+     border-radius: 10px;
+     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+     padding: 10px;
+ }
+
+ .notice-card {
+     background-color: ivory;
+     border: 1px solid #ddd;
+     border-radius: 8px;
+     padding: 15px;
+     margin-bottom: 15px;
+     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+     transition: transform 0.3s ease;
+ }
+
+ .notice-card:hover {
+     transform: translateY(-5px);
+ }
+
+ .notice-title {
+     font-size: 16px;
+     font-weight: bold;
+     margin-bottom: 5px;
+     color: white;
+     cursor: pointer;
+     text-align: center;
+     background-color: darkcyan;
+ }
+
+ .notice-date {
+     color: #666;
+     font-size: 14px;
+ }
+
+ .notice-description {
+     margin-top: 10px;
+     color: #444;
+ }
+
+ .popup {
+     display: none;
+     position: fixed;
+     left: 50%;
+     top: 50%;
+     transform: translate(-50%, -50%);
+     background-color: rgba(0, 0, 0, 0.8);
+     color: #fff;
+     padding: 20px;
+     border-radius: 10px;
+     z-index: 1000;
+ }
+
+ .popup-content {
+     max-width: 600px;
+     margin: 0 auto;
+     overflow-y: auto;
+     max-height: 80vh;
+ }
+
+ .close-btn {
+     position: absolute;
+     top: 10px;
+     right: 10px;
+     cursor: pointer;
+     color: #ccc;
+     font-size: 20px;
+ }
+
+ .show-more {
+     text-align: center;
+     margin-top: 15px;
+ }
+
+ .show-more a {
+     text-decoration: none;
+     color: #007bff;
+     font-weight: bold;
+     cursor: pointer;
+ }
+
+ .read-more {
+     display: block;
+     text-align: right;
+     margin-top: 10px;
+ }
+
+ .read-more, .read-less {
+     display: block;
+     text-align: right;
+     color: cornflowerblue;
+     cursor: pointer;
+     text-decoration: none;
+     font-weight: bold;
+     margin-top: 5px;
+ }

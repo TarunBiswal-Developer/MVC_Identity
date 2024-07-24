@@ -1,0 +1,483 @@
+﻿<!DOCTYPE html>
+@using Backend.Models;
+@{
+    var UserInfo = new Backend.Models.SessionUser().UserProfile;
+    var currentYear = DateTime.Now.Year;
+
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>BackEnd</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="@Url.Content("~/Assets/img/IIIT_Logo.png")" rel="icon">
+    <link href="@Url.Content("~/Assets/img/apple-touch-icon.png")" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="" @Url.Content("~/Assets/css/googleFonts.css") " rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/bootstrap/css/bootstrap.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/bootstrap-icons/bootstrap-icons.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/boxicons/css/boxicons.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/quill/quill.snow.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/quill/quill.bubble.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/remixicon/remixicon.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/simple-datatables/style.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/font-awesome/css/all.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/datatables/css/jquery.dataTables.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/bootstrap-daterangepicker/daterangepicker.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/ParsleyFile/css/parsley.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/select2/css/select2.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/sweetalert2/sweetalert2.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css")" />
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="@Url.Content("~/Assets/css/style.css")">
+    <style>
+        .icon-large {
+            font-size: 2em;
+        }
+        .parsley-required {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+    @RenderSection("css", required: true)
+</head>
+
+<body>
+    <div id="loader" style="display: none;">
+        <table style="height: 100%; border: 0; width: 100%; position: fixed; top: 0; left: 0; background-color: #FAFAFA; opacity: 0.8; z-index: 9000;">
+            <tbody>
+                <tr>
+
+                    <td style="width: 100%; text-align:center; vertical-align : middle;">
+                        <p style="font-family: Arial; font-size: 24px; font-weight: bold; color: #000000; text-align: center; padding-top: 5px;">Processing, please wait . . . </p><img src="~/Assets/img/ajax-loading.gif">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="index.html" class="logo d-flex align-items-center">
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="~/Assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@string.Format("{0}", UserInfo.Name)</span>
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>
+                                @string.Format("{0}", UserInfo.Name)
+                            </h6>
+                            <span>@string.Format("{0}", UserInfo.Role)</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="@Url.Action("MyProfile", "Profile")">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="@Url.Action("Logout","Account")">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            @if (!UserInfo.UserRoles.Contains("SuperAdmin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="userCode" value="@UserInfo.UserCode" href="@Url.Action("ViewNoticeBoard", "Report")">
+                        <i class="bi bi-clipboard"></i>
+                        <span>Notice Board</span>
+                    </a>
+                </li>
+            }
+            @if (UserInfo.UserRoles.Contains("SuperAdmin"))
+            {
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-person-fill-x"></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "SuperAdmin")">
+                                <i class="bi bi-person-badge"></i><span>Users List</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("Create", "SuperAdmin")">
+                                <i class="bi bi-person-add"></i><span>Add User</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li><!-- End Components Nav -->
+
+            }
+            else if (UserInfo.UserRoles.Contains("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Dashboard", "HrAdmin")">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("EmployeeCategory", "HrAdmin")">
+                        <i class="bi bi-person-bounding-box"></i><span>Employee Category</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("ListOfUsers", "HrAdmin")">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Employee Management</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#leave-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-calendar-event"></i><span>Leave Management</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="leave-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("LeaveType", "HrAdmin")">
+                                <i class="bi bi-calendar-range"></i><span>Leave Type</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("LeaveMapping", "HrAdmin")">
+                                <i class="bi bi-share"></i><span>Leave Mapping</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("LeaveCarryFrd", "HrAdmin")">
+                                <i class="bi bi-skip-forward"></i><span>Leave Carry Forward</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("SpecificLeaveMapping", "HrAdmin")">
+                                <i class="bi bi-pin-map-fill"></i><span>Specific Leave Mapping</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("LeaveDetails", "HrAdmin")">
+                                <i class="bi bi-ui-radios"></i><span>Leave Details</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("MappingApprovalAuthority", "HrAdmin")">
+                                <i class="bi bi-arrow-right-circle"></i><span>Mapping Approval Authority</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("LeaveLedger", "HrAdmin")">
+                                <i class="bi bi-clipboard2-pulse"></i><span>Leave Ledger</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "HrAdmin")">
+                                <i class="bi bi-calendar-plus"></i><span>Leave Credit</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li><!-- End Components Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Attendance", "HrAdmin")">
+                        <i class="bi bi-person-vcard-fill"></i>
+                        <span>Employee Attendance</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("DigiDocuments", "HrAdmin")">
+                        <i class="bi bi-file-earmark-pdf"></i>
+
+                        <span>Digi Documents</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("DigiSpecifier", "HrAdmin")">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>Digi Specifier</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#report-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-reception-4"></i><span>Report(s)</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="report-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("Index", "HrAdmin")">
+                                <i class="bi bi-reception-3"></i><span>Report1</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("Create", "HrAdmin")">
+                                <i class="bi bi-reception-2"></i><span>Report2</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("DigiSpecifier", "HrAdmin")">
+                        <i class="bi bi-file-break-fill"></i>
+                        <span>Data Entry & Digi Documents</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+            }
+            else if (UserInfo.UserRoles.Contains("User"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Dashboard", "AccountAdmin")">
+                        <i class="bi bi-person"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li><!-- End Profile Page Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#ac-masternav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="ac-masternav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeProcedureDetails", "AccountAdmin")">
+                                <i class="bi bi-person"></i>
+                                <span>Fee Procedure</span>
+                            </a>
+                        </li><!-- End Profile Page Nav -->
+
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeStructureDetails", "AccountAdmin")">
+                                <i class="bi bi-person"></i>
+                                <span>Fee Structure</span>
+                            </a>
+                        </li><!-- End Profile Page Nav -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("MappingFeeProcedureToStructureDetails", "AccountAdmin")">
+                                <i class="bi bi-person"></i>
+                                <span>Mapping Fee Structure</span>
+                            </a>
+                        </li><!-- End Profile Page Nav -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("StudentFeeMapping", "AccountAdmin")">
+                                <i class="bi bi-person"></i>
+                                <span>Student Fee Mapping</span>
+                            </a>
+                        </li><!-- End Profile Page Nav -->
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeInstallment", "AccountAdmin")">
+                                <i class="bi bi-person"></i>
+                                <span>Fee Installment</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#ac-payrolnav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Employee Payroll</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="ac-payrolnav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("EmployeePayroll", "AccountAdmin")">
+                                <i class="bi bi-person"></i><span>Upload Payroll</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("ManagePayroll", "AccountAdmin")">
+                                <i class="bi bi-person"></i><span>Manage Payroll</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li><!-- End Components Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#ac-studnav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Student Fee</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="ac-studnav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeDemand", "AccountAdmin")">
+                                <i class="bi bi-person"></i>
+                                <span>Fee Demand</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeReceipt", "AccountAdmin")">
+                                <i class="bi bi-person"></i>
+                                <span>Fee Receipt</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#report-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-menu-button-wide"></i><span>Report(s)</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="report-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeSummary", "AccountAdmin")">
+                                <i class="bi bi-circle"></i><span>Fee Summary</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeLedger", "AccountAdmin")">
+                                <i class="bi bi-circle"></i><span>Fee Ledger</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeLedgerByStudent", "AccountAdmin")">
+                                <i class="bi bi-circle"></i><span>Fee Ledger by Student</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="@Url.Action("FeeDemandReport", "AccountAdmin")">
+                                <i class="bi bi-circle"></i><span>Fee Demand Report</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+        </ul>
+    </aside><!-- End Sidebar-->
+    <main id="main" class="main">
+        <div class="main-content">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span> @currentYear </span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            Designed by <a href="https://www.suyogcomputech.com/">Suyog Pvt Ltd.</a>
+        </div>
+    </footer><!-- End Footer -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!-- Vendor JS Files -->
+    <script src="@Url.Content("~/Assets/vendor/jquery/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/apexcharts/apexcharts.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/chart.js/chart.umd.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/echarts/echarts.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/quill/quill.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/tinymce/tinymce.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/select2/js/select2.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/datatables/js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/moment.js/moment.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/parsley.js/parsley.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/crypto-js/crypto-js.min.js")"></script>script">
+    <script src="@Url.Content("~/Assets/vendor/font-awesome/js/all.min.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/bootstrap-daterangepicker/daterangepicker.min.js")"></script>
+    <!-- Template Main JS File -->
+    <script src="@Url.Content("~/Assets/js/main.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/sweetalert2/sweetalert2.js")"></script>
+    <script src="@Url.Content("~/Assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js")"></script>
+    <script src="@Url.Content("~/Assets/js/html2pdf.bundle.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.modal').modal({
+                backdrop: 'static',
+                keyboard: false  // to prevent closing with Esc button (if you want this too)
+            });
+        });
+        $(document).ajaxStop(function () {
+            $('#loader').hide(); // Hide loader when AJAX request completes
+        });
+        var sweetAlert = "@TempData["SweetAlert"]" || "";
+        if (sweetAlert) {
+            var alertParts = sweetAlert.split("|");
+
+            // SweetAlert configuration
+            Swal.fire({
+                icon: alertParts[0],
+                title: alertParts[1],
+                text: alertParts[2] || "",  // Optional text message
+                confirmButtonText: alertParts[3] || "OK",  // Optional confirm button text
+                showConfirmButton: alertParts[4] !== "false",  // Show or hide confirm button
+                timer: alertParts[5] ? parseInt(alertParts[5]) : null,  // Optional timer duration
+                position: alertParts[6] || "center",  // Optional position: top, bottom, center, etc.
+                customClass: {
+                    container: alertParts[7] || "swal-container-class",  // Optional container class
+                },
+                // Add more configuration options as needed
+            });
+        }
+        function showSweetAlert(icon, title, text, timer) {
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                showConfirmButton: false,
+                timer: timer
+            });
+}
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+        var parsleyConfig = {
+             errorsContainer: function (pEle) {
+                 var $err = pEle.$element.closest('.form-group .input-group').find('.help-block');
+                 return $err;
+             }
+         }
+        var parsleyConfigNew = {
+            errorsContainer: function (pEle) {
+                var $err = pEle.$element.closest('.form-group').find('.help-block');
+                return $err;
+            }
+        }
+    </script>
+    @RenderSection("scripts", required: true)
+</body>
+</html>

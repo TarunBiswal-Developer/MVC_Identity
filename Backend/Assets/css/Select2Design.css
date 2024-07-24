@@ -1,0 +1,38 @@
+﻿  /* Custom Select2 Styles */
+  .select2-container--default .select2-selection--single {
+      height: 40px; /* Adjust height as needed */
+      border: 1px solid #ced4da; /* Add border */
+      border-radius: 5px; /* Add border radius */
+      background: linear-gradient(to right, #ffffff, #f0f0f0); /* Add gradient background */
+      color: #495057; /* Set text color */
+      padding: 10px; /* Add padding */
+      line-height: 1.5; /* Set line height */
+      font-size: 14px; /* Set font size */
+  }
+
+      /* Custom Select2 arrow */
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+          height: 38px; /* Match height with container */
+          top: 1px; /* Adjust vertical position */
+          right: 1px; /* Adjust horizontal position */
+          color: #495057; /* Set arrow color */
+      }
+
+  /* Custom Select2 dropdown */
+  .select2-container--default .select2-dropdown {
+      border-radius: 5px; /* Add border radius */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow */
+      background: linear-gradient(to bottom, #ffffff, #f0f0f0); /* Add gradient background */
+  }
+
+  /* Custom Select2 dropdown items */
+  .select2-container--default .select2-results__option {
+      padding: 8px 12px; /* Add padding */
+      font-size: 14px; /* Set font size */
+      color: #495057; /* Set text color */
+  }
+
+  /* Custom Select2 dropdown items on hover */
+  .select2-container--default .select2-results__option--highlighted {
+      background-color: #d0d0d0; /* Set background color on hover */
+  }

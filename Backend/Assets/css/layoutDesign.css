@@ -1,0 +1,29 @@
+﻿/* Add your custom CSS styles here */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.pagetitle {
+    margin-bottom: 10px;
+}
+
+.breadcrumb {
+    background-color: #f8f9fa;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.breadcrumb-item {
+    display: inline;
+}
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "›";
+        padding: 0 5px;
+    }
+
+.section {
+    margin-bottom: 40px;
+}

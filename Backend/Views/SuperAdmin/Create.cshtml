@@ -1,0 +1,399 @@
+﻿@model Backend.Models.UserProfile
+@{
+    ViewBag.Title = "Create User";
+}
+@section css {
+    <style>
+        #addUser {
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+            #addUser .row {
+                margin-bottom: 10px;
+            }
+
+        .form-group input.form-control {
+            padding: .375rem .75rem;
+        }
+
+        form-group select.form-select {
+            width: 100%;
+            padding: .375rem 2.25rem .375rem .75rem;
+        }
+
+        /*#addUser span.select2.select2-container.select2-container--default.select2-container--below span {
+            padding: 2px 8px 0;
+            height: 36px;
+        }*/
+
+
+
+        span.select2.select2-container.select2-container--default {
+            border-radius: 4px;
+            border-color: #eaeaea;
+            background-color: #fcfcfc;
+            border: 1px solid #ccc;
+            height: 35px;
+            width: 100% !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 100%;
+            border: none !important;
+        }
+
+        span.selection {
+            height: 100%;
+            display: block;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 35px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 35px;
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fcfcfc;
+        }
+
+        .btnGenerate {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+        }
+
+            .btnGenerate a#GeneratePassword {
+                margin: 0;
+                border-radius: 0 25px 25px 0;
+                height: 35px;
+                background: #0f831d;
+                color: #FFF;
+                border: 0;
+                line-height: 25px;
+                font-weight: bold;
+                padding: 4px 15px 0 10px;
+                font-size: 13px;
+                letter-spacing: 0.5px;
+                /* text-transform: uppercase; */
+            }
+
+            .btnGenerate input.form-control {
+                border-radius: 4px 0 0 4px;
+            }
+
+        input.btn-creat {
+            float: right;
+        }
+    </style>
+}
+
+<div class="container">
+
+
+    <div class="pagetitle">
+        <h1>@ViewBag.Title</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("CreateUser", "SuperAdmin", new { uID = Request.QueryString["uID"] }, FormMethod.Post, new { id = "addUser" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.UserId)
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label class="form-label">Personal Number/User Code</label>
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.UserCode, new
+                                        {
+                                            htmlAttributes = new
+                                            {
+                                                @class = "form-control form-control-sm",
+                                                minlength = "2",
+                                                maxlength = "6",
+                                                required = "required",
+                                                //placeholder = "Employee Number / Vendor Code",
+                                                data_parsley_required_message = "Please Enter Personal Number",
+                                                data_parsley_length = "[2, 6]"
+                                            }
+                                        })
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Name</label>
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.Name, new
+                                        {
+                                            htmlAttributes = new
+                                            {
+                                                @class = "form-control form-control-sm",
+                                                required = "required",
+                                                //placeholder = "Name",
+                                                data_parsley_required_message = "Please Enter User Name",
+                                            }
+                                        })
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Email</label>
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.Email, new
+                                        {
+                                            htmlAttributes = new
+                                            {
+                                                @class = "form-control form-control-sm",
+                                                required = "required",
+                                                data_parsley_required_message = "Please Enter Email Address",
+                                                data_parsley_type = "email",
+                                               // placeholder = "Email",
+                                                data_parsley_type_message = "Please Enter Valid Email Address"
+                                            }
+                                        })
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label class="form-label">Mobile</label>
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.Mobile, new
+                                           {
+                                               htmlAttributes = new
+                                               {
+                                                   @class = "form-control form-control-sm",
+                                                   data_parsley_pattern = "^\\d{10}$",
+                                                   required = "required",
+                                                   // placeholder = "Mobile",
+                                                   data_parsley_pattern_message = "Please Enter Valid Mobile No",
+
+                                               }
+                                           })
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Role</label>
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(model => model.Role, (IEnumerable<SelectListItem>)ViewData["ROLEselectListItems"], new { @class = " ddlRole form-select", required = "required", data_parsley_required_message = "Please Select Role", data_parsley_errors_container = "#roleHelpBlock" })
+                                        <div id="roleHelpBlock" class="help-block"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Username</label>
+                                    <div class="form-group">
+                                        @Html.EditorFor(model => model.Username, new
+                                        {
+                                            htmlAttributes = new
+                                            {
+                                                @class = "form-control form-control-sm",
+                                                minlength = "2",
+                                                maxlength = "6",
+                                                required = "required",
+                                                //placeholder = "Employee Number / Vendor Code",
+                                                data_parsley_required_message = "Please Enter Username",
+                                                data_parsley_length = "[2, 6]"
+                                            }
+                                        })
+                                        <div class="help-block"></div>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-4">
+                                        <label>Department</label>
+                                        <div class="form-group">
+                                            @Html.DropDownListFor(model => model.Department, (IEnumerable<SelectListItem>)ViewData["DEPTselectListItems"], new { @class = "form-control form-control-sm", required = "required", data_parsley_required_message = "Please Select Department" })
+                                            <div class="help-block"></div>
+                                        </div>
+                                    </div>*@
+                            </div>
+                            <div class="row">
+
+                                <div class="col-lg-4">
+                                    <label class="form-label">Password</label>
+                                    <div class="form-group">
+                                        <div class="btnGenerate">
+                                            @Html.EditorFor(model => model.Password, new
+                                                {
+                                                    htmlAttributes = new
+                                                    {
+                                                    @class = "form-control form-control-sm",
+                                                    pattern = "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9@]{6,20})$",
+                                                    data_parsley_whitespace = "trim",
+                                                    placeholder = "",
+                                                    minlength = "6",
+                                                    maxlength = "20",
+                                                    required = "required",
+                                                    data_parsley_required_message = "Please Enter Password",
+                                                    data_parsley_errors_container = "#passwordHelp-Block"
+                                                    }
+                                                    })
+                                            <a id="GeneratePassword" class="btn btn-sm btn-outline-secondary">Generate</a>
+                                        </div>
+                                        <div id="passwordHelp-Block" class="help-block"></div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-lg-8  text-right">
+                                    <label class="form-label">&nbsp;</label>
+                                    <div class="form-group">
+                                        <input id="btnSaveUser" type="submit" value="Create" class="btn btn-sm btn-primary btn-creat" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $('#btnSaveUser').on('click', function () {
+                $('form#addUser').parsley(parsleyConfig).validate();
+            });
+
+            var hfUserId = $('#UserId');
+            var ipUserCode = $('#UserCode');
+            var ipName = $('#Name');
+            var ipEmail = $('#Email');
+            var ipMobile = $('#Mobile');
+            var slRole = $('#Role');
+           // var slDept = $('#Department');
+            var ipUsername = $('#Username');
+            var ipPassword = $('#Password');
+
+            //var ipOtherContactNo = $('#OtherContactNo');
+            //var ipOtherEmailId = $('#OtherEmailId');
+            //var ipFatherName = $('#FatherName');
+            //var ipFatherContact = $('#FatherContact');
+            //var ipMotherName = $('#MotherName');
+            //var ipMotherContact = $('#MotherContact');
+            //var ipLocalGuardian = $('#LocalGuardian');
+            //var ipLocalGuardianContact = $('#LocalGuardianContact');
+            //var ipResidentialAddress = $('#ResidentialAddress');
+            //var ipHostelAddress = $('#HostelAddress');
+
+            $('#btnSaveUser').on('click', function (e) {
+                e.preventDefault();
+                var isValid = $('form#addUser').parsley(parsleyConfig).validate();
+                if (isValid) {
+                    var UserId = $(hfUserId).val();
+                    var Username = $(ipUsername).val();
+                    var Password = $(ipPassword).val();
+                    var UserCode = $(ipUserCode).val();
+                    var Name = $(ipName).val();
+                    var Email = $(ipEmail).val();
+                    var Mobile = $(ipMobile).val();
+                    var Role = $(slRole).val();
+                   // var Department = $(slDept).val();
+                    //var OtherContactNo = $(ipOtherContactNo).val();
+                    //var OtherEmailId = $(ipOtherEmailId).val();
+                    //var FatherName = $(ipFatherName).val();
+                    //var FatherContact = $(ipFatherContact).val();
+                    //var MotherContact = $(ipMotherContact).val();
+                    //var MotherName = $(ipMotherName).val();
+                    //var LocalGuardian = $(ipLocalGuardian).val();
+                    //var LocalGuardianContact = $(ipLocalGuardianContact).val();
+                    //var ResidentialAddress = $(ipResidentialAddress).val();
+                    //var HostelAddress = $(ipHostelAddress).val();
+
+
+                    var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+                    var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+
+                    var UserCode = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(UserCode), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    var Username = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Username), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    var Password = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    var Name = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Name), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    var Email = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Email), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    var Mobile = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Mobile), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    var Role = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Role), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var Department = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Department), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var OtherContactNo = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(OtherContactNo), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var OtherEmailId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(OtherEmailId), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var FatherName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FatherName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var FatherContact = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FatherContact), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var MotherContact = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(MotherContact), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var MotherName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(MotherName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var LocalGuardian = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(LocalGuardian), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var LocalGuardianContact = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(LocalGuardianContact), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var ResidentialAddress = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(ResidentialAddress), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var HostelAddress = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(HostelAddress), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+
+                    //var UserData = {
+                    //    UserId, Password, UserCode, Username, Name, Email, Mobile, Role, OtherContactNo, OtherEmailId, FatherName, FatherContact, MotherContact, MotherName, LocalGuardian, LocalGuardianContact, ResidentialAddress, HostelAddress
+                    //};
+
+                    var UserData = {
+                        UserId, Password, UserCode, Username, Name, Email, Mobile, Role
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: '@Url.Action("CreateUser", "SuperAdmin")',
+                        data: JSON.stringify(UserData),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.IsSuccessful) {
+                               // $.notify({ message: data.Message }, { type: 'info' });
+                                showSweetAlert('success', 'Success', data.Message, 5000);
+                            } else {
+                                showSweetAlert('error', 'Error', data.Message, 5000);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            showSweetAlert('error', 'Error', errorThrown, 5000);
+                        }
+                    });
+                }
+            });
+            $("#GeneratePassword").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    url: '@Url.Action("GeneratePassword", "SuperAdmin")',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Result == "success") {
+                            $("#Password").val(data.Password);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        showSweetAlert('error', 'Error', errorThrown, 5000);
+                    }
+                });
+            });
+
+            $('.ddlRole').select2();
+        });
+    </script>
+}

@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "select2@4.0.13",
+      "destination": "Assets/vendor/select2/"
+    },
+    {
+      "library": "bootstrap-notify@0.2.0",
+      "destination": "Assets/vendor/bootstrap-notify/"
+    },
+    {
+      "library": "datatables@1.10.21",
+      "destination": "Assets/vendor/datatables/"
+    },
+    {
+      "library": "moment.js@2.30.1",
+      "destination": "Assets/vendor/moment.js/"
+    },
+    {
+      "library": "parsley.js@2.9.2",
+      "destination": "Assets/vendor/parsley.js/"
+    },
+    {
+      "library": "jquery@3.7.1",
+      "destination": "Assets/vendor/jquery/"
+    },
+    {
+      "library": "crypto-js@4.2.0",
+      "destination": "Assets/vendor/crypto-js/"
+    },
+    {
+      "library": "font-awesome@6.5.2",
+      "destination": "Assets/vendor/font-awesome/"
+    },
+    {
+      "library": "bootstrap-datepicker@1.10.0",
+      "destination": "Assets/vendor/bootstrap-datepicker/"
+    },
+    {
+      "library": "bootstrap-daterangepicker@3.0.5",
+      "destination": "Assets/vendor/bootstrap-daterangepicker/"
+    }
+  ]
+}

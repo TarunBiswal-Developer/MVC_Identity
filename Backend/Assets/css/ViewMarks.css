@@ -1,0 +1,59 @@
+.smaller-input {
+    height: 30px;
+}
+
+.small-text {
+    font-size: 13px;
+}
+
+.smaller-input {
+    width: 150px;
+}
+
+.row {
+    margin-top: 10px;
+}
+
+.text-center {
+    width: auto;
+}
+
+.ribbon {
+    width: 105%;
+    height: 30px;
+    background-color: #f0ad4e;
+    text-align: center;
+    line-height: 30px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+    .ribbon::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 10px solid #f0ad4e;
+    }
+
+.student-details-row {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+
+.card-body {
+    padding: 0 9px 20px 20px;
+}
+/*.card-header {
+    background:#1a2b66 ;
+}*/

@@ -1,0 +1,315 @@
+﻿@model Backend.Models.UserProfile
+<style>
+    .requiredTxt {
+        color:red;
+    }
+</style>
+<form id="editUser">
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.UserId)
+
+
+
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <label>Personal Number/User Code <span class="requiredTxt">*</span></label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.UserCode, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   minlength = "4",
+                   maxlength = "7",
+                   required = "required",
+                   placeholder = "Personal Number",
+                   data_parsley_required_message = "Please Enter Personal Number",
+                   data_parsley_length = "[6, 6]",
+                   disabled = "disabled"
+
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Username <span class="requiredTxt">*</span></label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Username, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   minlength = "4",
+                   maxlength = "7",
+                   required = "required",
+                   placeholder = "Personal Number",
+                   data_parsley_required_message = "Please Enter Username",
+                   data_parsley_length = "[6, 6]",
+                   disabled = "disabled"
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Role <span class="requiredTxt">*</span></label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Role", data_parsley_required_message = "Please Enter Role Name", disabled = "disabled" } })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Admission Year <span class="requiredTxt">*</span></label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.AdmissionYear.Year, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <label>Name <span class="requiredTxt">*</span></label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   required = "required",
+                   placeholder = "Name",
+                   data_parsley_required_message = "Please Enter Name",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Official Email <span class="requiredTxt">*</span></label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Email, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   required = "required",
+                   data_parsley_pattern = "[a-zA-Z0-9._&]+@[a-zA-Z0-9._-]+\\.+[a-z._-]+",
+                   data_parsley_pattern_message = "Please Enter Valid Email Address",
+                   data_parsley_required_message = "Please Enter Email Address",
+                   data_parsley_type = "email",
+                   placeholder = "Email",
+                   data_parsley_type_message = "Please Enter Valid Email Address"
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Other Email Id</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.OtherEmailId, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   //required = "required",
+                   data_parsley_pattern = "[a-zA-Z0-9._&]+@[a-zA-Z0-9._-]+\\.+[a-z._-]+",
+                   data_parsley_pattern_message = "Please Enter Valid Email Address",
+                   data_parsley_required_message = "Please Enter Email Address",
+                   data_parsley_type = "email",
+                   placeholder = "Other Email Id",
+                   data_parsley_type_message = "Please Enter Valid Email Address"
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Official Contact No.</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Mobile, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   data_parsley_pattern = "^\\d{10}$",
+                   placeholder = "Official Contact No.",
+                   data_parsley_pattern_message = "Please Enter Valid Mobile No",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <label>Other Contact No.`</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.OtherContactNo, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   data_parsley_pattern = "^\\d{10}$",
+                   placeholder = "Other Contact No.",
+                   data_parsley_pattern_message = "Please Enter Valid Mobile No",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Father Name</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.FatherName, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   //required = "required",
+                   placeholder = "Father Name",
+                   data_parsley_required_message = "Please Enter Father Name",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+
+        </div>
+        <div class="col-lg-3">
+            <label>Father Contact`</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.FatherContact, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   data_parsley_pattern = "^\\d{10}$",
+                   placeholder = "Father Contact",
+                   data_parsley_pattern_message = "Please Enter Valid Mobile No",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Mother Name</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.MotherName, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   //required = "required",
+                   placeholder = "Mother Name",
+                   data_parsley_required_message = "Please Enter Mother Name",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <label>Mother Contact`</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.MotherContact, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   data_parsley_pattern = "^\\d{10}$",
+                   placeholder = "Mother Contact",
+                   data_parsley_pattern_message = "Please Enter Valid Mobile No",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Local Guardian</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.LocalGuardian, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   //required = "required",
+                   placeholder = "Local Guardian",
+                   data_parsley_required_message = "Please Enter Local Guardian",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+            <label>Local Guardian Contact</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.LocalGuardianContact, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   data_parsley_pattern = "^\\d{10}$",
+                   placeholder = "Local Guardian Contact",
+                   data_parsley_pattern_message = "Please Enter Valid Mobile No",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <label>Residential Address</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.ResidentialAddress, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   //required = "required",
+                   placeholder = "Residential Address",
+                   data_parsley_required_message = "Please Enter Residential Address",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-lg-3">
+            <label>Hostel Address</label>
+            <div class="form-group">
+                @Html.EditorFor(model => model.HostelAddress, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   //required = "required",
+                   placeholder = "Hostel Address",
+                   data_parsley_required_message = "Please Enter Hostel Address",
+               }
+           })
+                <div class="help-block"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <hr />
+
+</form>
+
+
+
+
+
